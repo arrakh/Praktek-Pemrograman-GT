@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int forward(int n){
+int atas(int n){
 	int i,j;
 	for(i=n; i>=1; i--)
     {
@@ -24,7 +24,7 @@ int forward(int n){
     }
 }
 
-int backward(int n){
+int bawah(int n){
 	int i,j;
 	for(i=1; i<n; i++)
     {
@@ -53,6 +53,6 @@ int main()
 
     cout << "Masukkan N: ";
     cin >> n;
-    forward(n);
-    backward(n);
+    atas(n);
+    bawah(n);
 }
