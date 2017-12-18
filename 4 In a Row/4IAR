@@ -1,0 +1,95 @@
+#include <iostream>
+#include <cstdlib>
+
+using namespace std;
+
+// Four In a Row v1
+
+//======== INISIALISASI VARIABEL ==============================================
+
+
+char map[9][9] = {
+
+	' ','|',' ','|',' ','|',' ','|',' ',
+
+	'-','|','-','|','-','|','-','|','-',
+
+	' ','|',' ','|',' ','|',' ','|',' ',
+
+	'-','|','-','|','-','|','-','|','-',
+
+	' ','|',' ','|',' ','|',' ','|',' ',
+
+	'-','|','-','|','-','|','-','|','-',
+
+	' ','|',' ','|',' ','|',' ','|',' ',
+	
+	'-','|','-','|','-','|','-','|','-',
+
+	' ','|',' ','|',' ','|',' ','|',' '
+					
+};
+
+bool win=false;
+bool playerturn=true;
+int baris;
+//=============================================================================
+
+
+void print(){
+	system("CLS");
+	for(int a=0; a<9; a++){
+		for(int b=0; b<9; b++){
+			cout << map[a][b];
+		}
+		cout << endl;
+	}
+	//cout << endl;
+	cout << "========="<<endl;
+	cout << "1|2|3|4|5";
+}
+
+int insert(int barisKeBerapa){
+	int check = -2;
+	cout << map[check][barisKeBerapa];
+	while(map[check+2][barisKeBerapa]==' '){
+		map[check+2][barisKeBerapa] = 'O';
+		map[check][barisKeBerapa] = ' ';
+		check = check + 2;
+		print();
+	}
+}
+
+
+int main(){
+
+	do{
+		//system("CLS");
+		print();
+		
+		cout << endl << "Ingin menaruh di baris ke berapa? ";
+		cin >> baris;
+		switch(baris){
+			case 1:
+				insert(0);
+				break;
+			case 2:
+				insert(2);
+				break;
+			case 3:
+				insert(4);
+				break;
+			case 4:
+				insert(6);
+				break;
+			case 5:
+				insert(8);
+				break;
+		}
+
+		
+		
+		
+	}while(win == false);
+	
+}
