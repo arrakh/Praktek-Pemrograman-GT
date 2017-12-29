@@ -289,10 +289,12 @@ int main(){
 	color(4);
 	cout << "\nAnda mendaftarkan " << jumlahplayer << " pemain!\n";
 	//Untuk memasukkan nama player
+	cin.ignore();
 	for(int i = 0; i < jumlahplayer; i++){
 		color(i+2);
 		cout <<"\nMasukkan nama player ke " << i + 1 <<endl;
-		cin >> p[i].nama;
+		getline(cin, p[i].nama);
+		//cin >> p[i].nama;
 		p[i].aktif = true;
 	}
 // Ini inisialisasi koordinat awal
@@ -313,10 +315,13 @@ p[3].pos.y = 8;
 		color(giliran+1);
 		cout << "\nSekarang giliran " << p[giliran-1].nama <<"!";
 		color(0);
-		cout << "\nSilahkan ketik apapun untuk mengocok dadu!";
-		cin >> bebas;	
-		cout << "\n Mengocok dadu";
-		usleep(100); cout << '.'; usleep(100); cout << '.'; usleep(100); cout << '.'; usleep(100); 
+		
+		//================= Komentarkan agar Otomatis ====================
+		//cout << "\nSilahkan ketik apapun untuk mengocok dadu!";
+		//cin >> bebas;	
+		//============================-o0o-===============================
+		cout << "\nMengocok dadu";
+		sleep(1); cout << '.'; sleep(1); cout << '.'; sleep(1); cout << '.'; 
 		roll = dadu(); color(0);
 		cout << "\n\nKamu mendapatkan angka "; color(6); cout << roll; 
 		sleep(1); cout << "\n\nMengerakkan...";
