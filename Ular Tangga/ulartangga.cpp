@@ -124,6 +124,7 @@ int dadu(){
 
 //============================ MAP =================================================================================================================================
 
+
 //Ini adalah char berisi map, ditaruh diluar main agar dapat di akses oleh segala fungsi
 char map[10][41] = {
 	
@@ -173,22 +174,23 @@ void print(){
 	cout <<"                                    FINISH\n";
 	for(int a=0; a<10; a++){
 		for(int b=0; b<41; b++){
-			//Kode dibawa ini memasukkan "setiap kolom kelipatan 4" pada variabel c
+			//Kode dibawa ini memasukkan "setiap kelipatan" pada variabel c dan d
 			int c = b%4;
+			int d = a%3;
 			//Set warna hijau
-			if(        ((a==1)||(a==4)||(a==7))    && c==3){
+			if(d==1 && c==3){
 				color(2);
 			}
 			//Set warna merah
-			else if(   ((a==2)||(a==5)||(a==8))    && c==3){
+			else if(d==2 && c==3){
 				color(3);
 			}
 			//Set warna cyan
-			else if(   ((a==2)||(a==5)||(a==8))    && c==2){
+			else if(d==2 && c==2){
 				color(4);
 			}
 			//Set warna kuning
-			else if(   ((a==2)||(a==5)||(a==8))    && c==1){
+			else if(d==2 && c==1){
 				color(5);
 			}
 			//Set warna default
