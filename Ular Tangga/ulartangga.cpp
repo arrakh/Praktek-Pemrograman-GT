@@ -15,6 +15,9 @@ using namespace std;
 
 bool menang = false;
 int jumlahplayer;
+int giliran = 1;
+int roll;
+char bebas;
 
 //=====================================================================
 
@@ -100,38 +103,42 @@ struct player{
 	bool aktif = false;
 	
 };
-
+//Inisialisasi 4 player
 player p[4];
+
 
 //===============================-o0o-====================================
 
 
 
-//=========================== DADU =======================================
+//=========================== DADU ========================================
 
+//Ini fungsi dadu berdasarkan random, akan men return nilai random sampai 6
 int dadu(){
 	return (rand()%6)+1;
 }
 
-//===========================-o0o-========================================
+//===========================-o0o-=========================================
 
 
 
 //============================ MAP =================================================================================================================================
 
-
+//Ini adalah char berisi map, ditaruh diluar main agar dapat di akses oleh segala fungsi
 char map[10][41] = {
 	
-'=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=',
-'|','2','1',' ','|','2','2',' ','|','2','3',' ','|','2','4',' ','|','2','5',' ','|','2','6',' ','|','2','7',' ','|','2','8',' ','|','2','9',' ','|','3','0',' ',' ',
-'|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ',' ',
-'+','-',' ','-','+','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=',
-'|','2','0',' ','|','1','9',' ','|','1','8',' ','|','1','7',' ','|','1','6',' ','|','1','5',' ','|','1','4',' ','|','1','3',' ','|','1','2',' ','|','1','1',' ','|',
-'|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',
-'=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','+','-',' ','-','+',
-' ','1',' ','o','|','2',' ',' ','|','3',' ',' ','|','4',' ',' ','|','5',' ',' ','|','6',' ',' ','|','7',' ',' ','|','8',' ',' ','|','9',' ',' ','|','1','0',' ','|',
-' ','o','o','o','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',
-'=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','='
+'/','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=',
+'|','2','1',' ','|','2','2',' ','|','2','3',' ','|','2','4',' ','|','2','5',' ','|','2','6',' ','|','2','7',' ','|','2','8',' ','|','2','9',' ','|','3','0',' ',';',
+'|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ',';',
+'+','-',' ','-','+','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','+',
+'(','2','0',' ','|','1','9',' ','|','1','8',' ','|','1','7',' ','|','1','6',' ','|','1','5',' ','|','1','4',' ','|','1','3',' ','|','1','2',' ','|','1','1',' ','|',
+'(',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',
+'+','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','+','-',' ','-','+',
+' ','1',' ','o','|','2',' ',' ','|','3',' ',' ','|','4',' ',' ','|','5',' ',' ','|','6',' ',' ','|','7',' ',' ','|','8',' ',' ','|','9',' ',' ','|','1','0',' ',')',
+' ','o','o','o','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ','|',' ',' ',' ',')',
+'=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','=','/'
+
+
 
 };
 
@@ -141,24 +148,12 @@ char map[10][41] = {
 
 //=========================== PAWN CHECK =================================
 
+//Fungsi ini mengecek apakah player itu aktif. jika tidak, maka fungsi ini mematikan bidak player
 int pawncheck(){
 	
 	for(int i=0; i<4; i++){
 		if(p[i].aktif == false){
-			switch(i){
-				case 0:
-					map[7][3] = ' ';
-					break;
-				case 1:
-					map[8][3] = ' ';
-					break;
-				case 2:
-					map[8][2] = ' ';
-					break;
-				case 3:
-					map[8][1] = ' ';
-					break;			
-			}
+			map[p[i].pos.y][p[i].pos.x] = ' ';
 		}
 	}
 	
@@ -170,16 +165,16 @@ int pawncheck(){
 
 //============================ PRINT =====================================
 
-
+//Fungsi ini mem-print seluruh isi map dengan  fungsi for
 void print(){
+	system("CLS");
 	pawncheck();
 	color(0);
 	cout <<"                                    FINISH\n";
 	for(int a=0; a<10; a++){
 		for(int b=0; b<41; b++){
-			
-			int c = b;
-			c = c % 4;
+			//Kode dibawa ini memasukkan "setiap kolom kelipatan 4" pada variabel c
+			int c = b%4;
 			//Set warna hijau
 			if(        ((a==1)||(a==4)||(a==7))    && c==3){
 				color(2);
@@ -198,15 +193,16 @@ void print(){
 			}
 			//Set warna default
 			else{
-				color(0);
+				color(11);
 			}
-			
+			//Kode dibawah ini mem-print isi map sesuai baris ke - a, kolom ke - b.
 			cout << map[a][b];
 		}
 		cout << endl;
 	}
-	
+	color(0);
 	cout<<"START\n\n";
+	//Kode dibawah ini menjabarkan player - player yang sedang bermain
 	for(int i = 0; i < jumlahplayer; i++){
 	color(i+2);
 	cout<<"Player "<<i+1<<": " << p[i].nama << endl;
@@ -220,6 +216,60 @@ void print(){
 
 
 
+//============================= GERAK ====================================
+
+//Fungsi ini menggerakkan bidak player
+void gerak(int a){
+	//Di loop sebanyak angka dadu
+	for(int i = 0; i < roll; i++){
+		//Set posisi bidak menjadi kosong
+		map[p[a].pos.y][p[a].pos.x] = ' ';
+		//Jika di kiri / kanan bidak terdapat karakter ( / ), maka naikkan ke atas
+		if(  (map[p[a].pos.y][p[a].pos.x+(4-(p[a].pos.x%4))] == ')')  ||  (map[p[a].pos.y][p[a].pos.x-(p[a].pos.x%4)] == '(')      ){
+			//Set petak di atas menjadi bidak player
+			map[p[a].pos.y-3][p[a].pos.x] = 'o';
+			//Set posisi y baru dan set arah baru
+			p[a].pos.y = p[a].pos.y - 3;
+			p[a].arah = p[a].arah * (-1);
+		}
+		//Jika di kiri / kanan bidak terdapat karakter ; , maka balikkan arah bidak, jalankan, lalu balikkan arahnya lagi
+		else if(  (map[p[a].pos.y][p[a].pos.x+(4-(p[a].pos.x%4))] == ';')  ||  (map[p[a].pos.y][p[a].pos.x-(p[a].pos.x%4)] == ';')      ){
+			p[a].arah = p[a].arah * -1;
+			for(int j=i; j<roll; j++){
+				map[p[a].pos.y][p[a].pos.x] = ' ';
+				map[p[a].pos.y][p[a].pos.x+(4*p[a].arah)] = 'o';
+				p[a].pos.x = p[a].pos.x + (4*p[a].arah);
+			}
+			p[a].arah = p[a].arah * -1;
+			i = roll;
+			
+		}
+		//Jika tidak terdapat karakter apa apa maka jalankan sesuai arah
+		else{
+			map[p[a].pos.y][p[a].pos.x+(4*p[a].arah)] = 'o';
+			p[a].pos.x = p[a].pos.x + (4*p[a].arah);	
+		}
+
+		print();
+	}
+}
+
+//========================================================================
+
+
+
+//=========================================== CHECK MENANG ======================================
+
+//Fungsi ini mengecek jika di kanan / kiri posisi player terdapat karakter ; , maka game berakhir
+void checkmenang(){
+	if(  (map[p[giliran-1].pos.y][p[giliran-1].pos.x+(4-(p[giliran-1].pos.x%4))] == ';')  ||  (map[p[giliran-1].pos.y][p[giliran-1].pos.x-(p[giliran-1].pos.x%4)] == ';')      ){
+		p[giliran-1].menang = true;
+		menang = true;	
+	}
+}
+
+//===============================================================================================
+
 
 
 int main(){
@@ -227,11 +277,7 @@ int main(){
 //======= RANDOM SEED ============
 	srand((unsigned)time(0)); 
 //================================
-	
-	color(11);
-	cout << "=============="; color(5); cout << "-o0o-"; color(11); cout << "================\n";
-	cout << "----- "; color(6); cout << "Welcome to Ular Tangga!"; color(11);  cout<< " -----\n";
-	cout << "===================================\n\n";
+
 	color(6);
 	cout << "Masukkan jumlah pemain (Maksimal 4 pemain): ";
 	cin >> jumlahplayer;
@@ -240,17 +286,61 @@ int main(){
 	}
 	color(4);
 	cout << "\nAnda mendaftarkan " << jumlahplayer << " pemain!\n";
-	
+	//Untuk memasukkan nama player
 	for(int i = 0; i < jumlahplayer; i++){
 		color(i+2);
 		cout <<"\nMasukkan nama player ke " << i + 1 <<endl;
 		cin >> p[i].nama;
 		p[i].aktif = true;
 	}
+// Ini inisialisasi koordinat awal
+//==============
+p[0].pos.x = 3;
+p[0].pos.y = 7;
+p[1].pos.x = 3;
+p[1].pos.y = 8;
+p[2].pos.x = 2;
+p[2].pos.y = 8;
+p[3].pos.x = 1;
+p[3].pos.y = 8;
+//==============
+
 	cout << endl;
-	system("CLS");
-	print();
+	do{
+		print();
+		color(giliran+1);
+		cout << "\nSekarang giliran " << p[giliran-1].nama <<"!";
+		color(0);
+		cout << "\nSilahkan ketik apapun untuk mengocok dadu!";
+		cin >> bebas;	
+		cout << "\n Mengocok dadu";
+		usleep(100); cout << '.'; usleep(100); cout << '.'; usleep(100); cout << '.'; usleep(100); 
+		roll = dadu(); color(0);
+		cout << "\n\nKamu mendapatkan angka "; color(6); cout << roll; 
+		sleep(1); cout << "\n\nMengerakkan...";
+		gerak(giliran-1);
+		checkmenang();
+		//Jika belum menang, maka giliran akan tetap dilanjutkan
+		if(!menang){
+		
+			if(giliran == jumlahplayer){
+				giliran = 1;
+			}
+			else{
+				giliran = giliran + 1;
+			}
+		}
 	
+		
+	
+	}while(!menang);
+	system("CLS");
+	color(0);
+	cout << "SELAMAT, ";
+	color(giliran+1);
+	cout << p[giliran-1].nama;
+	color(0);
+	cout << " MENANG!!";
 
 }
 
